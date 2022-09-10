@@ -99,7 +99,7 @@ def run():
     while True:
         kq = kqxs_hehe()
         bot_id = save_bot()
-        if datetime.now().strftime("%H:%M") == "20:26":
+        if datetime.now().strftime("%H:%M") == "19:00":
             for i in range(len(bot_id)):
                 bot.send_message(bot_id[i], kq)
         time.sleep(60)
