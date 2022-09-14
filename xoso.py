@@ -8,9 +8,10 @@ import requests
 import json
 import argparse
 
-
+#proxyvn
 def get_xoso():
-    linkget = requests.get("https://ketqua.vn/")
+    proxy = {'http': 'http://221.132.18.26:8090'}
+    linkget = requests.get("https://ketqua.vn/", proxies= proxy)
     tree = BeautifulSoup(markup= linkget.text, features= "lxml")
     data = tree.find(name="div", attrs={"class": "data-kqxs hidden"}).text
     result = json.loads(data)

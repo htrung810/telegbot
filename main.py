@@ -13,6 +13,8 @@ config.sections()
 token_tele = config['API-TOKEN']['TOKEN']
 bot = telebot.TeleBot(f"{token_tele}", parse_mode= None)
 
+#proxy VN
+proxy = {'http': 'http://221.132.18.26:8090'}
 #time VN
 os.environ['TZ'] = 'Asia/Ho_Chi_Minh'
 time.tzset()
@@ -48,7 +50,7 @@ def save_bot():
 def nha():
     name_clb = []
     getdata = requests.get(
-        "https://www.24h.com.vn/bong-da/bang-xep-hang-bong-da-anh-c48a466585.html"
+        "https://www.24h.com.vn/bong-da/bang-xep-hang-bong-da-anh-c48a466585.html", proxies= proxy
         )
     handle_data = BeautifulSoup(markup=getdata.text, features= "lxml")
     info_topfive = handle_data.find_all(name='div', attrs={'class': 'info-club'})
