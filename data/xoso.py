@@ -1,7 +1,3 @@
-__doc__ = """Viết một script kiểm tra xem các số argument đầu vào có trúng lô không
-(2 số cuối trùng với một giải nào đó). Nếu không có argument nào thì print
-ra tất cả các giải từ đặc biệt -> giải 7."""
-
 from webbrowser import get
 from bs4 import BeautifulSoup
 import requests
