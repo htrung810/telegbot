@@ -1,25 +1,31 @@
-from cProfile import run
-from random import choices
-from time import time
+from data.light import LightController
 import data.link as link
-import setup.setup as set_tele
-import time
+import telebot
+import config
+from data.datetime import local_now
+from logger import init_logger
 
 
-bot = set_tele.bot_tele
-time_VN = set_tele.time_zone
+logger = init_logger()
+
+
+bot = telebot.TeleBot(f"{config.TELEGRAM_BOT_TOKEN}", parse_mode= None)
+light_controller = LightController(api=config.LIGHT_API)
 
 
 # start
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
+    now = local_now()
     start_help = f""" \n
     Chào {message.from_user.full_name}, đây là bot tự động của Trung, chúc bạn có một ngày mới vui vẻ.
-    Bây giờ là: {time_VN}
+    Bây giờ là: {now}
     Gọi hỗ trợ lệnh hãy bấm /help.
     /bxh :   Cập nhật BXH top 10 mới nhất NHA.
     /kqxs:   Kết quả xổ số miền Bắc hôm nay.
     /cat :   Kêu gọi meow meow
+    /on :   Bật đèn
+    /off :   Tắt  đèn
     """
     bot.send_message(message.chat.id, start_help)
 
@@ -45,11 +51,30 @@ def cats(message):
     bot.send_photo(message.chat.id, a)
 
 
-@bot.message_handler(func=lambda m: True)
-def echo(m):
-    bot.send_message(m.chat.id,f"{choices(link.reply.reply_name)[0]}")
-    time.sleep(1)
+@bot.message_handler(commands=['on'])
+def turn_on(message):
+    try:
+        light_controller.turn_on()
+    except Exception as e:
+        msg = "Có lỗi xảy ra khi bật đèn"
+        bot.reply_to(message, f"Error: {msg}")
+        logger.exception("Turn On Error: %s", e)
+    else:
+        bot.reply_to(message, "Đã bật đèn")
+
+
+@bot.message_handler(commands=['off'])
+def turn_off(message):
+    try:
+        light_controller.turn_off()
+    except Exception as e:
+        msg = "Có lỗi xảy ra khi tắt đèn"
+        bot.reply_to(message, f"Error: {msg}")
+        logger.exception("Turn Off Error: %s", e)
+    else:
+        bot.reply_to(message, "Đã tắt đèn")
 
 
 if __name__ == "__main__":
+    logger.info("Bot started")
     bot.polling(none_stop=True, timeout= 10)

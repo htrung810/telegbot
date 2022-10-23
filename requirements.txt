@@ -4,3 +4,6 @@ pyTelegramBotAPI==4.7.0
 python-telegram-bot==20.0a0
 requests==2.27.1
 threadpoolctl==3.1.0
+environs==9.5.0
+pytz==2022.5
+lxml
