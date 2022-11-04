@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+# my proxy
 proxy = {'http': 'http://221.132.18.26:8090'}
 
 def nha():

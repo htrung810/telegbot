@@ -29,3 +29,7 @@ python launch.py
 ```bash
 python launch.py
 ```
+
+### Phần đèn là dành cho ESP8266(đang phát triển)
+
+* facebook: [htrung810](https://www.facebook.com/htrung810/)
